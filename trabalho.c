@@ -28,5 +28,27 @@ void registrarConsumo(Medicao *dados, int *n) {
     scanf("%lf", &dados[*n].custo);
 
     (*n)++;
-    printf("Medição registrada com sucesso.\n");
+    printf("Mediçao registrada com sucesso.\n");
+}
+
+void salvarMedicoesArquivo(Medicao *dados, int n, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        fprintf(arquivo, "%s,%.2lf,%.2lf\n", dados[i].dataHora, dados[i].consumo, dados[i].custo);
+    }
+    fclose(arquivo);
+    printf("Dados salvos no arquivo '%s'.\n", nomeArquivo);
+}
+
+double calcularMedia(Medicao *dados, int n) {
+    double soma = 0.0;
+    for (int i = 0; i < n; i++) {
+        soma += dados[i].consumo;
+    }
+    return soma / n;
 }
